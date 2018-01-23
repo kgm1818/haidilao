@@ -1,13 +1,10 @@
 <template>
   <div class='banner-box'>
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="item in imgList">
-          <img :src='item' />
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
+    <mt-swipe :auto="4000">
+      <mt-swipe-item v-for="item in imgList">
+        <img :src='item' />
+      </mt-swipe-item>
+    </mt-swipe>
   </div>
 </template>
 <script>
@@ -31,23 +28,20 @@ export default {
       .catch(err => {
         console.log(err)
       })
-      this.mySwiper = new Swiper('.swiper-container', {
-      pagination: '.swiper-pagination',
-      loop: true,
-      autoplay: 5000
-    })
   },
-  updated(){
-    this.mySwiper.update()
+  updated () {
   }
 }
 </script>
 <style scoped>
-.swiper-container {
+.banner-box {
   width: 100%;
   height: 288px;
 }
-.swiper-slide img {
+.mint-swipe-item{
+  overflow: hidden;
+}
+.mint-swipe-item img {
   width: 100%;
 }
 </style>

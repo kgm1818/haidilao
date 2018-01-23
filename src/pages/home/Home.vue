@@ -1,6 +1,7 @@
 <template>
   <div class="page">
    <banner-com></banner-com>
+   <list-com></list-com>
   </div>
 </template>
 <script>

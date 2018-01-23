@@ -1,10 +1,10 @@
 import Vue from 'vue'
-// import ElementUI from 'element-ui'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import App from './App.vue'
-// import 'element-ui/lib/theme-chalk/index.css'
-// Vue.use(ElementUI)
 import router from './router'
 import store from './store'
+Vue.use(MintUI)
 Vue.config.productionTip = false
 new Vue({
     name: 'app',

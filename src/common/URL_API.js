@@ -10,6 +10,7 @@
   // ?latitude=23.12908&longitude=113.264359&offset=8&limit=8
 
   const URL_API={
-    bannerImg:'/hdl_market/rs/inner/appCommonRest/toQueryCarouselInfo'
+    bannerImg:'/hdl_market/rs/inner/appCommonRest/toQueryCarouselInfo',
+    homeListInfo:'/hdl_market/rs/inner/appCommonRest/toQueryInfoPage'
   }
   export default URL_API
