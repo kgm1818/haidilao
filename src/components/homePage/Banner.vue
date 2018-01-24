@@ -37,11 +37,15 @@ export default {
 .banner-box {
   width: 100%;
   height: 288px;
-}
-.mint-swipe-item{
   overflow: hidden;
 }
+.mint-swipe-item{
+ height: 100%;
+ width: 100%;
+ overflow: hidden;
+}
 .mint-swipe-item img {
-  width: 100%;
+  max-width: 100%;
+  max-height:100%;
 }
 </style>

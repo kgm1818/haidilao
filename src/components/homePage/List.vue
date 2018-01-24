@@ -1,15 +1,15 @@
 <template>
   <section class='list-box'>
     <ul>
-      <li v-for='item in footList'>
+      <li v-for='item in footList' @click.stop='goFoodDetail(item.id)'>
         <div class='content'>
           <p class='title'>{{item.maintitle}}</p>
           <p class='subtitle'>{{item.subtitle}}</p>
           <p class='evaluate'>
-            <span><img src='http://imageapp.haidilao.com/img/comment-g.png' />
+            <span class='comm_num'><img src='http://imageapp.haidilao.com/img/comment-g.png' />
               <font>{{item.comm_num}}</font>
             </span>
-            <span><img src='http://imageapp.haidilao.com/img/goodnum.png' />
+            <span class='fond_num'><img src='http://imageapp.haidilao.com/img/goodnum.png' />
               <font>{{item.fond_num}}</font>
             </span>
             <span>{{item.end_date}}</span>
@@ -30,8 +30,11 @@ export default {
       footList: []
     }
   },
+  props: {
+    pagenum: Number
+  },
   mounted () {
-    getListInfo()
+    getListInfo(10, this.pagenum)
       .then(result => {
         this.footList = result
       }).catch(err => {
@@ -39,7 +42,21 @@ export default {
       })
   },
   methods: {
-
+    goFoodDetail (id) {
+      this.$router.push('/home/foodDetail/' + id)
+    }
+  },
+  updated () {
+    this.$watch('pagenum', (newVal) => {
+      // 上啦加载更多
+      getListInfo(10, newVal)
+        .then(result => {
+          this.footList = this.footList.concat(result)
+          this.$emit('getPagenum',true)
+        }).catch(err => {
+          console.log(err)
+        })
+    })
   }
 }
 </script>
@@ -54,7 +71,6 @@ export default {
   height: 135px;
   background: #fff;
   margin-top: 5px;
-
 }
 .content,
 .pic-info {
@@ -81,13 +97,27 @@ export default {
   font-size: 12px;
   color: #858585;
   max-height: 45px;
+  margin-top: 3px;
 }
-.evaluate{
+.evaluate {
   position: absolute;
   left: 10px;
   top: 110px;
   color: #afafaf;
-  font-family: "微软雅黑"；
-
+  font-family: "微软雅黑";
+  display: flex;
+}
+.evaluate span {
+  display: flex;
+  font-size: 12px;
+  line-height: 16px;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+.comm_num img,
+.fond_num img {
+  transform: scale(0.7);
 }
 </style>

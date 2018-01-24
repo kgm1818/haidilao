@@ -11,6 +11,8 @@
 
   const URL_API={
     bannerImg:'/hdl_market/rs/inner/appCommonRest/toQueryCarouselInfo',
-    homeListInfo:'/hdl_market/rs/inner/appCommonRest/toQueryInfoPage'
+    homeListInfo:'/hdl_market/rs/inner/appCommonRest/toQueryInfoPage',
+    foodDetail:'/hdl_market/rs/inner/appCateInfo/queryCateInfo',
+    foodComment:'/hdl_market/rs/inner/appCateComment/toQueryCateCommentPage'
   }
   export default URL_API

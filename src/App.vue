@@ -1,12 +1,6 @@
 <template>
     <div id='app'>
         <router-view></router-view>
-        <nav class='nav-box'>
-            <router-link to="/home">首页</router-link>
-            <router-link to="/discover">发现</router-link>
-            <router-link to="/order">订单</router-link>
-            <router-link to="/me">我的</router-link>
-        </nav>
     </div>
 
 </template>
@@ -14,22 +8,25 @@
 <script>
 
 export default {
-
+    methods: {
+        // handlerPush(val){
+        //     console.log('dfd000')
+        //     console.log(val)
+        // }
+    }
 }
 </script>
 
-<style scoped>
-.router-link-active{
-    background:lightblue;
-    color: lightcoral;
+<style>
+.router-link-active {
+  color: #666;
 }
 .nav-box {
   height: 49px;
-  line-height: 49px;
   width: 100%;
-  background: lavenderblush;
+  background: #fff;
   display: flex;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
 }
@@ -38,7 +35,7 @@ export default {
   display: block;
   width: 100%;
   height: 1px;
-  border-bottom: 1px solid lightblue;
+  border-bottom: 1px solid #666;
   position: absolute;
   left: 0;
   top: -1px;
@@ -48,11 +45,23 @@ export default {
   flex: 1;
   text-align: center;
 }
-.page{
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 49px;
+.nav-box a img {
+  width: 28px;
+  height: 28px;
+  overflow:hidden;
+  margin-top: 3px; 
+}
+.nav-box a span {
+  font-size: 12px;
+  display: block;
+  margin-top: -5px;
+}
+.page {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 49px;
+  overflow: hidden;
 }
 </style>

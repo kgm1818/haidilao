@@ -1,8 +1,10 @@
 <template>
-  <div class='header-box'>
-    <input v-model="textVal" type="text" />
-    <div>{{this.num}}</div>
-  </div>
+  <mt-header>
+    <mt-button slot="right">
+      <img src='static/images/sao.png' class='img left' />
+      <img src='static/images/kf_home.png' class='img' />
+    </mt-button>
+  </mt-header>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -48,7 +50,13 @@ export default {
 }
 </script>
 <style>
-
+.mint-button-text .img{
+  width: 40px;
+  height: 40px;
+}
+.mint-button-text .img.left{
+  margin-right: 10px;
+}
 </style>
 
 
