@@ -40,6 +40,15 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    this.$event.$on('pageNum', (obj) => {
+      getListInfo(10, obj.pagenum)
+        .then(result => {
+          this.footList = this.footList.concat(result)
+          obj.addNum()
+        }).catch(err => {
+          console.log(err)
+        })
+    })
   },
   methods: {
     goFoodDetail (id) {
@@ -47,16 +56,7 @@ export default {
     }
   },
   updated () {
-    this.$watch('pagenum', (newVal) => {
-      // 上啦加载更多
-      getListInfo(10, newVal)
-        .then(result => {
-          this.footList = this.footList.concat(result)
-          this.$emit('getPagenum',true)
-        }).catch(err => {
-          console.log(err)
-        })
-    })
+
   }
 }
 </script>
