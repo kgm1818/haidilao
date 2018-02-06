@@ -29,7 +29,7 @@ module.exports = {
     devServer: {
         contentBase: __dirname,
         historyApiFallback: true,
-        port: 8002,
+        port: 8005,
         inline: true,
         hot: true,
         proxy: { // 请求代理项
@@ -39,7 +39,7 @@ module.exports = {
             // }
             '/hdl_market': {
                 "target": 'http://wemedia.haidilao.com',
-                "changeOrigin":true
+                "changeOrigin": true
             }
         }
     },
@@ -47,6 +47,17 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new OpenBrowserWebpackPlugin({
             url: 'http://localhost:8002'
+        }),
+        // 使用 webpack 的 DefinePlugin 来指定生产环境，以便在压缩时可以让 UglifyJS 自动删除警告代码块
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
         })
     ]
 }

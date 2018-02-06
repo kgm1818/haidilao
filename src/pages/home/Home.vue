@@ -44,7 +44,7 @@ export default {
       isShow: true,
       pagenum: 1,
       bottomStatus: ''
-     // bottomStatus: ['上拉显示更多', '正在加载...', '没有更多数据了']
+      // bottomStatus: ['上拉显示更多', '正在加载...', '没有更多数据了']
     }
   },
   components: {
@@ -58,24 +58,28 @@ export default {
     })
     Iscroll.on('scrollStart', () => {
       Iscroll.refresh();
-      // var scrollHeight = document.getElementById('wrapper-box').offsetHeight - document.body.clientHeight + 49;
-      // console.log(scrollHeight)
     });
+    Iscroll.on('scroll', () => {
+      if (Iscroll.y <= Iscroll.maxScrollY + 50 && Iscroll.y > Iscroll.maxScrollY) {
+        this.bottomStatus = '上拉显示更多';
+      } else if (Iscroll.y <= Iscroll.maxScrollY) {
+        this.bottomStatus = '释放加载更多';
+      }
+    })
     Iscroll.on('scrollEnd', () => {
-      // if (Iscroll.y <= Iscroll.maxScrollY + 50 && Iscroll.y > Iscroll.maxScrollY) {
-      //   this.bottomStatus='上拉显示更多';
-      // }
-      //  else if(Iscroll.y <= Iscroll.maxScrollY){
-
-      // }
-      if (Iscroll.y <= Iscroll.maxScrollY) {
-        console.log('加载下一页')
+      if (Iscroll.y <= Iscroll.maxScrollY + 50 && Iscroll.y > Iscroll.maxScrollY) {
+        this.bottomStatus = '上拉显示更多';
+        Iscroll.scrollTo(0, Iscroll.maxScrollY + 50, 200)
+      }
+      else if (Iscroll.y <= Iscroll.maxScrollY) {
+        this.bottomStatus = '正在加载';
         if (flag && this.pagenum < 7) {
           flag = false;
           this.pagenum++;
-          this.$event.$emit('pageNum', { pagenum: this.pagenum, addNum: function () { flag = true } })
-        };
-        console.log('下一页。。。')
+          this.$event.$emit('pageNum', { pagenum: this.pagenum, addNum: function () { flag = true, this.bottomStatus = '上拉显示更多' } })
+        }else{
+          this.bottomStatus = '没有更多数据了'
+        }
       }
     })
   },

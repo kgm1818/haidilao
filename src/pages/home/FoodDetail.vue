@@ -44,7 +44,7 @@
               </div>
             </li>
           </ul>
-          <p class='not-more'>没有更多数据了</p>
+          <p class='not-more'>{{loadingMsg}}</p>
         </div>
       </div>
     </div>
@@ -67,30 +67,67 @@ export default {
         creator_name: '',
         content: '',
         comm_num: '',
-        fond_num: ''
+        fond_num: '',
+        myscroll: null
       },
-      comments:[]
+      comments: [],
+      loadingMsg: '上啦加载更多',
+      totalPages: 0,
+      pagenum: 1,
+      flag: true
     }
   },
   components: {
     'header-com': HeaderBack
   },
   mounted () {
-    getFoodDetail()
+    getFoodDetail(this.$route.params.id)
       .then(result => {
         this.detailInfo = result
+
       })
-      getFoodComment()
-      .then(result=>{
-        console.log(result)
-        this.comments=result;
+    getFoodComment(5, this.pagenum, this.$route.params.id)
+      .then(result => {
+        this.comments = result.data;
+        this.totalPages = result.totalPages
       })
     this.$nextTick(() => {
-      let myscroll = new IScroll('.food-content-box', {
+      this.myscroll = new IScroll('.food-content-box', {
         probeType: 3
       })
-      myscroll.on('scrollStart', () => {
-        myscroll.refresh();
+      this.myscroll.on('scrollStart', () => {
+        this.myscroll.refresh();
+      })
+      this.myscroll.on('scroll', () => {
+        if (this.myscroll.y <= this.myscroll.maxScrollY + 50 && this.myscroll.y > this.myscroll.maxScrollY) {
+           if (this.pagenum > this.totalPages) {
+               this.loadingMsg = '上啦加载更多'
+            }
+        } else if (this.myscroll.y < this.myscroll.maxScrollY) {
+            if (this.pagenum > this.totalPages) {
+              this.loadingMsg = '释放可加载更多'
+            }
+        }
+      })
+      this.myscroll.on('scrollEnd', () => {
+        if (this.myscroll.y <= this.myscroll.maxScrollY + 50 && this.myscroll.y > this.myscroll.maxScrollY) {
+          this.myscroll.scrollTo(0, this.myscroll.maxScrollY, 100)
+        } else if (this.myscroll.y <= this.myscroll.maxScrollY) {
+          this.loadingMsg = '正在加载。。。'
+          if (this.flag) {
+            this.flag = false;
+            if (this.pagenum > this.totalPages) {
+               this.loadingMsg = '没有更多数据了'
+              return
+            }
+            getFoodComment(5, this.pagenum, this.$route.params.id)
+              .then(result => {
+                this.comments = this.comments.concat(result.data);
+                this.flag = true;
+                this.pagenum++
+              })
+          }
+        }
       })
     })
 
@@ -186,7 +223,7 @@ export default {
   height: 35px;
   margin-right: 15px;
 }
-.food-message-pic img{
+.food-message-pic img {
   width: 100%;
   border-radius: 50%;
 }

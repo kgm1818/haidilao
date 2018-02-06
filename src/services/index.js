@@ -6,7 +6,7 @@ export function getBannerImg() {
     Axios.post(URL_API.bannerImg)
       .then(response => {
         if (response.status === 200) {
-          console.log(response.data)
+         // console.log(response.data)
           let data = response.data.list.map(item => {
             return item.covermap_url
           })
@@ -51,9 +51,9 @@ export function getListInfo(pagesize, pagenum) {
       })
   })
 }
-export function getFoodDetail() {
+export function getFoodDetail(id) {
   return new Promise((resolve, reject) => {
-    Axios.post(URL_API.foodDetail, 'id=123')
+    Axios.post(URL_API.foodDetail, `id=${id}`)
       .then(res => {
         //  console.log(res.data)
         let obj = res.data.cateInfoEntity
@@ -73,9 +73,9 @@ export function getFoodDetail() {
       })
   })
 }
-export function getFoodComment() {
+export function getFoodComment (pagesize,pagenum,id) {
   return new Promise((resolve, reject) => {
-    Axios.post(URL_API.foodComment, 'pagesize=5&pagenum=1&cate_id=114')
+    Axios.post(URL_API.foodComment, `pagesize=${pagesize}&pagenum=${pagenum}&cate_id=${id}`)
       .then(res => {
         console.log(res.data.restfulResult.page.result)
         let data = res.data.restfulResult.page.result.map(item => {
@@ -87,7 +87,7 @@ export function getFoodComment() {
             good_num: item.good_num //赞
           }
         })
-        resolve(data)
+        resolve({ data, totalPages: res.data.restfulResult.page.totalPages})
       })
   })
 }
